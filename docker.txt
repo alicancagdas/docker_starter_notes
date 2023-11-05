@@ -114,7 +114,6 @@ docker plugin rm grafana/loki-docker-driver:latest
   
 ////////////////////////////
 
-docker image build -t my_nginx . //
 
 
 
