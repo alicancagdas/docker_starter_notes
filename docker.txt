@@ -1,0 +1,121 @@
+#docker temel komutlar
+
+docker info
+docker ps, docker ps -a, docker container ls, docker container ls -a
+docker run centos //(last versioon)
+
+docker run centos:7 */(version)/* echo "alican" //tek seferlik çalıştı 
+
+docker container run centos:7 bash //bashe girer
+docker container run -it centos:7 bash //nashi kullanmaya başlar
+
+docker container exec -it 231c2014244d bash
+
+
+
+
+**************************************************************************
+
+docker container exec:
+Bu komut, çalışan bir Docker konteynerine girmenizi (exec) sağlar. Varolan bir konteynere komut çalıştırmak için kullanılır. Örneğin, bir konteynerin içine girmek istediğinizde veya belirli bir işlemi yürütmek istediğinizde kullanışlıdır. Aşağıdaki gibi kullanabilirsiniz:
+
+bash
+Copy code
+docker container exec -it <container_id> <command>
+<container_id>: İçine girmek istediğiniz Docker konteynerinin kimlik numarası veya adıdır.
+<command>: Konteyner içinde çalıştırmak istediğiniz komuttur. Örneğin, bir kabuk (örneğin Bash) içine girmek için "sh" veya "bash" kullanabilirsiniz.
+docker container run:
+Bu komut, yeni bir Docker konteyneri oluşturmanızı ve başlatmanızı sağlar. Yani yeni bir konteyneri başlatmak ve içinde belirli bir işlemi yürütmek için kullanılır. Örnek kullanımı:
+
+php
+Copy code
+docker container run -it --name <container_name> <image_name> <command>
+<container_name>: Oluşturulan konteynere vermek istediğiniz ad.
+<image_name>: Konteyneri oluşturmak için kullanılacak Docker imajının adı veya kimliği.
+<command>: Konteyner içinde çalıştırmak istediğiniz komuttur. Bu komut, konteyner başlatıldığında otomatik olarak çalıştırılacaktır.
+
+*************************************************************************************
+
+docker container ls -a --no-trunc //detaylı container id incelemesi 
+
+PS C:\Users\Alican Çağdaş> docker container ls -l //oluşturulan son konteynır
+
+docker container ls -a -q // sadece container idleri
+
+
+docker container run centos:7 ping 127.0.0.1 -c 10 // 10 tane ping atıp exit moda düşecek
+
+docker container run centos:7 ping 127.0.0.1 // ping işlemi başlayacak runtimeda çalışmaya devam edecek 
+
+docker container logs 622d22627b90 //loglar
+
+docker container attach 231c2014244d // bu komutla canlı olarak containera giriş yapıyoruz çıktığımızda container sonlanıyor
+
+docker container logs --tail 10 622d22627b90 //son logları görmek için
+
+docker container logs -f 622d22627b90 // canlı logları inceleme
+
+docker container run -d tomcat // -d flağı deattach modda container açar arka planda çalışmasına devam
+
+docker stop id 
+
+docker start // arka planda çalışmaya başlatoıyoruz 
+
+docker start -a id // attach modda container başlayacak
+
+
+Docker'da docker kill ve docker stop komutları, Docker konteynerlerini sonlandırmak için kullanılan iki farklı komuttur ve aralarında bazı önemli farklar vardır:
+
+docker kill:
+
+docker kill komutu, bir Docker konteynerini hemen ve zorla sonlandırır. Bu, konteynerin çalışan işlemini acil bir şekilde sonlandırır.
+İşlem tamamlanmadan önce hiçbir sinyal göndermez ve konteyneri hemen kapatır. Bu, işlem içindeki verilerin kaybolmasına neden olabilir.
+Kullanımı şu şekildedir: docker kill <container_id> veya docker kill <container_name>.
+docker stop:
+
+docker stop komutu, bir Docker konteynerini daha nazik bir şekilde sonlandırır. Konteyner içinde çalışan işlemi sonlandırır, ancak bu işlem için bir süre bekler ve işlemin temiz bir şekilde sonlanmasını sağlar.
+İşlem, varsayılan olarak SIGTERM (15) sinyali ile başlatılır ve bir süreliğine bekler. Eğer işlem bu süre zarfında kapanmazsa, SIGKILL (9) sinyali ile zorla sonlandırılır.
+Bu yaklaşım, işlem içindeki verilerin düzgün bir şekilde kaydedilmesine olanak tanır.
+Kullanımı şu şekildedir: docker stop <container_id> veya docker stop <container_name>.
+Genel olarak, docker stop kullanmak, konteyneri düzgün bir şekilde sonlandırmak için daha iyi bir seçenektir. Ancak bazı durumlarda, hızlı ve acil bir şekilde konteyneri sonlandırmak gerekebilir, bu durumda docker kill tercih edilebilir. Hangi komutun kullanılacağı, duruma ve ihtiyaca bağlı olarak değişebilir.
+
+
+docker container inspect // konteynır detaylarını görmemize yarıyor
+
+eğer containera volume atamazsak sildiğimizde verileriyle birlikte sileriz
+
+docker container inspect 4e25831ab3f2 | Select-String "IPAddress" //ipaddress yazan detayları görüyoruz
+
+docker container rm 4e25831ab3f2 // çalışmayan durumdaki containeri silme
+
+docker container run -d -p 5000:80 //5000 ile host port 80 ise container port
+docker container run -d -p 80/tcp  //sadece container port 
+
+docker container port  49af2a79ca46 // port durumunu kotnrol ettik
+
+code Dockerfile //vs codeda dockerfile oluşturduk
+
+docker image build -t my_nginx . // dockerfiledan image build ettik
+
+
+////////plugins////////////
+
+docker hub 
+
+docker plugin install grafana/loki-docker-driver
+
+docker plugin ls
+
+docker plugin disable  grafana/loki-docker-driver:latest
+
+docker plugin inspect grafana/loki-docker-driver:latest
+
+docker plugin rm grafana/loki-docker-driver:latest
+  
+////////////////////////////
+
+docker image build -t my_nginx . //
+
+
+
+
